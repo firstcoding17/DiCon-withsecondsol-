@@ -25,8 +25,9 @@ for(i = 1 ; i < member.length ; i++){
         data[i] = member[i];
         var get_publickey = rsa.publickey(data[i]);
         var totalThisVote = 0;
-        hash = sha256(get_publickey,0,0);//암호화 및 get_publickey는 첫해쉬 공통생성
+        hash = sha256(get_publickey,0,0,0);//암호화 및 get_publickey는 첫해쉬 공통생성
         var line = [];//투표 배열마련
+        line[0] = 0;
     
     }
 

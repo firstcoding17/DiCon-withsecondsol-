@@ -1,11 +1,15 @@
 const sha256 = require("sha256");
 const genasis = require("./genasis");//제네시스로부터 후보블록불러오기위함
 const RSA = require("./RSA");//RSA불러오기위함
+const Surport = require("./Surport");
+const porter = new Surport();
 const rsa = new RSA();
 const GenasisFile = new genasis();
 
 
 var InputMemberNum;//투표 했을시 기호 n번 입력받는 곳
+var check;//서버에서 확인(1)이나 취소(0)받아옴
+var cancel = 1 ;//서버에서 다시하기 할 시 0으로 리턴 그전은 1
 var call_genesis=[];
 var voter = 0;//서버에서 받을 거이니 서버에서 이 파일을 실행 할때마다 1명씩 추가
 var move;//전블록호출해서 앞에있는 노드값 받기 위함
@@ -13,6 +17,9 @@ var judge = [GenasisFile.long];//어느 후보인지 판단을 위함
 var beforehashfirst;//전 해쉬값 인증을 받기 위해서
 //제네시스에 숫자 0번부터 투표 수를 계산 할 수 있도록 만듬
 
+var cancel = function(){
+    return 0;
+}//다시하기 할 때 이 함수를 불러오면 됨
 
 
 for(let i=1 ; i<GenasisFile.long ; i++){
@@ -51,9 +58,16 @@ if(GenasisFile.memberchain[InputMemberNum].totalThisVote==0){
 var new_block = function(){
     var votenum = GenasisFile.memberchain[InputMemberNum].totalThisVote+1;//투표수 계산을 위함
     number=GenasisFile.memberchain[InputMemberNum].number[InputMemberNum];//후보자 기호
-    
+   
 
     publickey = GenasisFile.memberchain[InputMemberNum].Get_publickey;//공개키 소유
+    check;//검증 확인 확인이면 true 아니면 false
+    porter.checking();
+    if(porter.totalprove == 3){
+        check =true;
+    }else{
+        check =  false;
+    }
     
     
     makeprivatekey =rsa.privatekey(votenum);//개인키
@@ -62,7 +76,13 @@ var new_block = function(){
 
 
 }//서버에서 후보 투표자수는 기억해야함
+if(new_block.check == true){
 GenasisFile.memberchain[InputMemberNum].line[votenum] = new_block;//제네시스 블록에 투표정보 입력 및 그 전 해쉬값을 불러오기 위함
+
+}else{
+    GenasisFile.memberchain[InputMemberNum].totalThisVote-1;
+    new_block = porter.garbage;
+}
 var TotalVoterNum = function(){
 
     return voter;
