@@ -3,4 +3,4 @@ const blockchain = require("./blockchain");
 const blcok = new blockchain();
 
 
-document.writeln("총 투표자수 :"+block.TotalVoterNum());
+document.writeln("총 투표자수 :"+block.TotalVoterNum());//투표수

@@ -1,9 +1,9 @@
 const blockchain = require("./blockchain");
 const block = new blockchain();
-const memberob = require("./genasis");
+const memberob = require("./genesis");
 const CallMember = new memberob();
 
-//검증검증검증검증검증검증검증검증검증검증검증검증검증검증검증검증검증검증검증검증검증검증검증검증검증검증검증검증검증검증검증검증검증
+
 //1 공개키 검증
 //2 개인키 검증
 //3 1,2번 통과시 검증(true)
@@ -39,17 +39,13 @@ var checking = function(){
     }
     else{
         break;
-    }
+    }//각 new_block 에서 검증 1번째는 퍼블릭키가맞는지(맞으면 +1) 2번째는 전 블록 검증해서 맞는지(맞으면 +1) 
 }
 if(availablevote == true){
     totalprove +1;
 }else{
     totalprove = totalprove;
-}
-
-
-
-
+}//투표나이가 되는지(되면 +1)
 
 
 //합의 알고리즘
@@ -60,4 +56,4 @@ if(availablevote == true){
     투표내역서명
     0값이용
 
-추가예정*/
+*/
